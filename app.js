@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 var express_session = require('express-session');
 var index = require('./routes/index');
 var users = require('./routes/users');
-
+var shop = require('./routes/shop');
 var app = express();
 
 // view engine setup
@@ -34,10 +34,10 @@ app.use(express_session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
+mongoose.connect('mongodb://localhost/turmanoite');
 app.use('/', index);
 app.use('/users', users);
-
+app.use('/shop',shop);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

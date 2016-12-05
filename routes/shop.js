@@ -4,16 +4,25 @@
 var express = require('express');
 var router = express.Router();
 var Shop = require('../models/Shop');
+
+
+
+
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-    var shopList = {}
-    shopList = Shop.find({},function (err,shops) {
+    var shopList = {};
+    Shop.find({},function (err,shops) {
         shops.forEach(function (shop) {
             shopList[shop._id] = shop;
         });
     });
-    res.render('lista_shop',{shoplist : shop});
+    res.render('lista_shop',{shoplist : shopList});
 });
+
+
+
+
+
 router.get('/{{title}}', function (req, res, next) {
     res.send('respond with a resource');
 });
