@@ -4,8 +4,7 @@
 var express = require('express');
 var router = express.Router();
 var Shop = require('../models/Shop');
-
-
+var stripe = require('stripe')('pk_test_amPZG6In1jJGihRbqNJk9Ath');
 
 
 /* GET users listing. */
@@ -57,4 +56,26 @@ router.get('/adicionasucesso', function (req, res, next) {
     res.send('Adicionou com o sucesso todo!');
 });
 
+router.get('/checkout', function (req, res, next) {
+    res.render('checkout');
+});
+router.post('/checkout', function (req, res, next) {
+    var token = req.body.stripeToken;
+
+    // Create a charge: this will charge the user's card
+    var charge = stripe.charges.create({
+        amount: 1000, // Amount in cents
+        currency: "eur",
+        source: token,
+        description: "Example charge"
+    }, function(err, charge) {
+        if (err && err.type === 'StripeCardError') {
+            // The card has been declined
+            res.send('pagamento falhou');
+        }else {
+            res.send('pagamento executado com sucesso');
+        }
+    });
+
+});
 module.exports = router;
