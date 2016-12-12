@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/signup', function (req, res, next) {
-    res.render('signup');
+   res.render('signup');
 });
 router.post('/signup',passport.authenticate('local-signup', {
     successRedirect: '/users/profile',
@@ -21,6 +21,15 @@ router.get('/profile',function (req,res,next) {
 router.get('/signin', function (req, res, next) {
     res.render('signin');
 });
+
+//TODO ROUTEAMENTO DIRECCIONADO COM O LOGIN
+router.get('/login',function (req,res,next) {
+    res.render('login');
+});
+router.post('login',passport.authenticate('local_login', {
+    successRedirect: '/users/profile',
+    failureRedirect: '/users/login'
+}));
 
 
 module.exports = router;
